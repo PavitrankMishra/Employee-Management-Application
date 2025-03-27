@@ -25,16 +25,16 @@ const Login = () => {
         console.log("Failed to login the user");
       } else {
         console.log("Login successful: " + data.token);
-        console.log(data);
         setToken(data.token);
+        localStorage.setItem("authToken", data.token);
       }
 
-      console.log(response);
       navigate("/users");
     } catch (err) {
       console.log(err);
     }
   };
+
   return (
     <>
       <Header />
