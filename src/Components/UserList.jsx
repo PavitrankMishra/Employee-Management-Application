@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Header from "./Header";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -96,6 +97,7 @@ const UserList = () => {
   };
   return (
     <section>
+    <Header />
       <h1>User List</h1>
       {message && <p>{message}</p>}
       {editingUser && (
