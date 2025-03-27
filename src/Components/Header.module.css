@@ -1,19 +1,29 @@
 .mainHeading {
   display: block;
   text-align: center;
-  border-bottom: 2px solid black;
-  padding: 10px;
-  border-radius: 10px;
+  border-bottom: 3px solid #444;
+  padding: 12px;
+  border-radius: 12px;
   font-size: 2vw;
   text-transform: uppercase;
   max-width: 90%;
   margin: 0 auto;
+  color: #ffffff;
+  background: linear-gradient(135deg, #4a90e2, #1c3d73); /* Gradient effect */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Hover effect */
+.mainHeading:hover {
+  transform: scale(1.02);
+  background: linear-gradient(135deg, #1c3d73, #4a90e2);
 }
 
 @media (max-width: 768px) {
   .mainHeading {
     font-size: 1.8rem;
-    padding: 8px;
+    padding: 10px;
   }
 }
 
