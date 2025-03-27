@@ -54,7 +54,9 @@ const UserList = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (e) => {
+    e.preventDefault(); // Prevent form submission default behavior
+  
     try {
       const response = await fetch(
         `https://reqres.in/api/users/${editingUser.id}`,
@@ -64,22 +66,29 @@ const UserList = () => {
           body: JSON.stringify(formData),
         }
       );
-
+  
       if (!response.ok) {
         throw new Error("Failed to update user");
       }
-
-      setUsers(
-        users.map((user) =>
-          user.id === editingUser.id ? { ...user, ...formData } : user
+  
+      const updatedUser = await response.json(); // Get the updated user data from API
+  
+      setUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user.id === editingUser.id ? { ...user, ...updatedUser } : user
         )
       );
+  
       setEditingUser(null);
       setMessage("User updated successfully");
+  
+      setTimeout(() => setMessage(""), 3000);
     } catch (error) {
       setMessage("Error updating user");
+      setTimeout(() => setMessage(""), 3000);
     }
   };
+  
   const handleDeleteUser = async (id) => {
     try {
       const response = await fetch(`https://reqres.in/api/users/${id}`, {
@@ -96,42 +105,55 @@ const UserList = () => {
       setMessage("Error deleting data");
     }
   };
+
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage("");
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
   return (
     <>
       <Header />
       <section className={styles.userListSection}>
         <h1 className={styles.userHeading}>User List</h1>
-        {message && <p>{message}</p>}
+        {message && <p className={styles.message}>{message}</p>}
         {editingUser && (
-  <div className={styles.overlay}>
-    <form onSubmit={handleUpdate} className={styles.editingForm}>
-      <h2>Edit User</h2>
-      <input
-        type="text"
-        name="first_name"
-        value={formData.first_name}
-        onChange={handleChange}
-        placeholder="First Name"
-      />
-      <input
-        type="text"
-        name="last_name"
-        value={formData.last_name}
-        onChange={handleChange}
-        placeholder="Last Name"
-      />
-      <input
-        type="email"
-        name="email"
-        value={formData.email}
-        onChange={handleChange}
-        placeholder="Email"
-      />
-      <button type="submit">Update User</button>
-      <button onClick={() => setEditingUser(null)}>Cancel Updating User</button>
-    </form>
-  </div>
-)}
+          <div className={styles.overlay}>
+            <form onSubmit={handleUpdate} className={styles.editingForm}>
+              <h2>Edit User</h2>
+              <input
+                type="text"
+                name="first_name"
+                value={formData.first_name}
+                onChange={handleChange}
+                placeholder="First Name"
+              />
+              <input
+                type="text"
+                name="last_name"
+                value={formData.last_name}
+                onChange={handleChange}
+                placeholder="Last Name"
+              />
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email"
+              />
+              <button type="submit">Update User</button>
+              <button onClick={() => setEditingUser(null)}>
+                Cancel Updating User
+              </button>
+            </form>
+          </div>
+        )}
         <ul className={styles.userList}>
           {users.map((user) => (
             <li key={user.id} className={styles.userItem}>
@@ -165,14 +187,14 @@ const UserList = () => {
           <button
             onClick={handlePreviousPage}
             className={styles.previousButton}
-            disabled={currentPage === 1} 
+            disabled={currentPage === 1}
           >
             Previous Page
           </button>
           <button
             onClick={handleNextPage}
             className={styles.nextButton}
-            disabled={currentPage === 2} 
+            disabled={currentPage === 2}
           >
             Next Page
           </button>
