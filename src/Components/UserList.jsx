@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "./Header";
+import styles from "./UserList.module.css";
 
 const UserList = () => {
   const [users, setUsers] = useState([]);
@@ -96,55 +97,88 @@ const UserList = () => {
     }
   };
   return (
-    <section>
-    <Header />
-      <h1>User List</h1>
-      {message && <p>{message}</p>}
-      {editingUser && (
-        <div>
-          <h2>Edit User</h2>
-          <input
-            type="text"
-            name="first_name"
-            value={formData.first_name}
-            onChange={handleChange}
-            placeholder="First Name"
-          />
-          <input
-            type="text"
-            name="last_name"
-            value={formData.last_name}
-            onChange={handleChange}
-            placeholder="Last Name"
-          />
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Email"
-          />
-          <button onClick={handleUpdate}>Update User</button>
-          <button onClick={() => setEditingUser(null)}>
-            Cancel Updating User
+    <>
+      <Header />
+      <section className={styles.userListSection}>
+        <h1 className={styles.userHeading}>User List</h1>
+        {message && <p>{message}</p>}
+        {editingUser && (
+  <div className={styles.overlay}>
+    <form onSubmit={handleUpdate} className={styles.editingForm}>
+      <h2>Edit User</h2>
+      <input
+        type="text"
+        name="first_name"
+        value={formData.first_name}
+        onChange={handleChange}
+        placeholder="First Name"
+      />
+      <input
+        type="text"
+        name="last_name"
+        value={formData.last_name}
+        onChange={handleChange}
+        placeholder="Last Name"
+      />
+      <input
+        type="email"
+        name="email"
+        value={formData.email}
+        onChange={handleChange}
+        placeholder="Email"
+      />
+      <button type="submit">Update User</button>
+      <button onClick={() => setEditingUser(null)}>Cancel Updating User</button>
+    </form>
+  </div>
+)}
+        <ul className={styles.userList}>
+          {users.map((user) => (
+            <li key={user.id} className={styles.userItem}>
+              <img
+                src={user.avatar}
+                alt={user.first_name}
+                className={styles.userImage}
+              />
+              <span className={styles.userName}>
+                {user.first_name} {user.last_name}
+              </span>
+              <div className={styles.buttonContainer}>
+                <button
+                  onClick={() => handleEditUser(user)}
+                  className={styles.editButton}
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => handleDeleteUser(user.id)}
+                  className={styles.deleteButton}
+                >
+                  Delete
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <div className={styles.navigation}>
+          <button
+            onClick={handlePreviousPage}
+            className={styles.previousButton}
+            disabled={currentPage === 1} 
+          >
+            Previous Page
+          </button>
+          <button
+            onClick={handleNextPage}
+            className={styles.nextButton}
+            disabled={currentPage === 2} 
+          >
+            Next Page
           </button>
         </div>
-      )}
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>
-            <img src={user.avatar} alt={user.first_name} width="50" />
-            {user.first_name} {user.last_name} - {user.email}
-            <button onClick={() => handleEditUser(user)}>Edit User</button>
-            <button onClick={() => handleDeleteUser(user.id)}>
-              Delete User
-            </button>
-          </li>
-        ))}
-      </ul>
-      <button onClick={handlePreviousPage}>Previous Page</button>
-      <button onClick={handleNextPage}>Next Page</button>
-    </section>
+      </section>
+    </>
   );
 };
 
