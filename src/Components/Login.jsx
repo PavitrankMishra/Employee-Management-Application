@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "./Header";
+import styles from "./Login.module.css";
 
 const Login = () => {
   const [loginID, setLoginID] = useState("");
@@ -36,8 +37,8 @@ const Login = () => {
   };
   return (
     <>
-      <section>
-        <Header />
+      <Header />
+      <section className={styles.userListContainer}>
         <h1>Welcome to Login screen</h1>
         <h2>Email: </h2>
         <input

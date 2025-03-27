@@ -1,0 +1,65 @@
+.userListContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #333;
+}
+
+.userListContainer h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.userListContainer input {
+  width: 100%;
+  max-width: 350px; 
+  padding: 12px;
+  margin: 8px 0;
+  border: none;
+  font-size: 1rem;
+  outline: none;
+  transition: 0.3s;
+  border-bottom:2px solid #333;
+}
+
+.userListContainer input:focus {
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
+.userListContainer button {
+  width: 100%;
+  max-width: 350px;
+  padding: 12px;
+  border-radius: 5px;
+  border: none;
+  background: linear-gradient(135deg, #4a90e2, #1c3d73); 
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s ease;
+}
+
+.userListContainer button:hover {
+  background: #e07b00;
+}
+
+@media (max-width: 600px) {
+  .userListContainer {
+    padding: 10px;
+  }
+
+  .userListContainer h1 {
+    font-size: 1.5rem;
+  }
+
+  .userListContainer input,
+  .userListContainer button {
+    max-width: 90%;
+    font-size: 1rem;
+  }
+}
